@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Wordl</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600;700&family=Nunito:wght@500;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main class="app-shell">
+      <section class="hero-card">
+        <div class="hero-copy">
+          <p class="eyebrow">Word Game For Middle School</p>
+          <h1>Wordl</h1>
+          <p class="subtitle">
+            A bright five-letter word game built for middle school students,
+            with quick rounds, clear feedback, and six chances to solve each
+            puzzle.
+          </p>
+        </div>
+        <div class="hero-actions">
+          <div class="intro-panel">
+            <p class="panel-title">How To Play</p>
+            <p class="panel-note">
+              Guess the hidden five-letter word. Green means the letter is in the
+              right spot, yellow means it belongs somewhere else, and gray means
+              it is not in the word.
+            </p>
+            <div class="theme-panel">
+              <label class="theme-label" for="theme-select">Choose A Theme</label>
+              <select id="theme-select" class="theme-select">
+                <option value="mixed">Mixed</option>
+                <option value="science">Science</option>
+                <option value="history">History</option>
+                <option value="ela">ELA</option>
+                <option value="nature">Nature</option>
+              </select>
+            </div>
+            <div class="button-row">
+              <button id="new-game-top" class="primary-button">New Word</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="game-card" id="game-card">
+        <div class="game-header">
+          <div>
+            <p class="eyebrow">Daily-Style Puzzle</p>
+            <h2>Guess the five-letter word</h2>
+            <p class="theme-chip" id="theme-chip">Theme: Mixed</p>
+          </div>
+          <div class="streak-card">
+            <span class="streak-label">Wins</span>
+            <span class="streak-value" id="wins-count">0</span>
+          </div>
+        </div>
+
+        <div class="notice" id="notice">
+          Type a five-letter word and press Enter.
+        </div>
+
+        <section class="board" id="board" aria-label="Guess board"></section>
+
+        <section class="keyboard" id="keyboard" aria-label="On-screen keyboard"></section>
+
+        <div class="button-row footer-row">
+          <button id="new-game" class="ghost-button">New Word</button>
+        </div>
+      </section>
+    </main>
+
+    <script src="./word-bank.js"></script>
+    <script src="./app.js"></script>
+  </body>
+</html>
