@@ -1,0 +1,12 @@
+{
+  "name": "wordl",
+  "version": "1.0.0",
+  "private": true,
+  "description": "A browser word game for middle school students.",
+  "scripts": {
+    "build": "echo \"Static site ready for Netlify\""
+  },
+  "engines": {
+    "node": "20.x"
+  }
+}
