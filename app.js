@@ -24,7 +24,7 @@ const WORD_SETS = {
 const VALID_GUESSES = new Set(DICTIONARY_WORDS);
 const MAX_GUESSES = 6;
 const WORD_LENGTH = 5;
-const STORAGE_KEY = "wordl";
+const STORAGE_KEY = "wordle";
 
 const state = {
   activeTheme: "mixed",
@@ -40,6 +40,7 @@ const state = {
 const board = document.getElementById("board");
 const keyboard = document.getElementById("keyboard");
 const notice = document.getElementById("notice");
+const nativeInput = document.getElementById("native-input");
 const themeChip = document.getElementById("theme-chip");
 const themeSelect = document.getElementById("theme-select");
 const winsCount = document.getElementById("wins-count");
@@ -98,10 +99,21 @@ function resetGame() {
   setNotice(`Theme: ${WORD_SETS[state.activeTheme].label}. Type a five-letter word and press Enter.`);
   renderBoard();
   renderKeyboard();
+  syncNativeInput();
 }
 
 function setNotice(message) {
   notice.textContent = message;
+}
+
+function syncNativeInput() {
+  nativeInput.value = state.guesses[state.rowIndex].join("");
+}
+
+function focusNativeInput() {
+  if (state.gameOver) return;
+  nativeInput.focus({ preventScroll: true });
+  nativeInput.setSelectionRange(nativeInput.value.length, nativeInput.value.length);
 }
 
 function renderBoard() {
@@ -246,6 +258,7 @@ function submitGuess() {
   state.rowIndex += 1;
   state.colIndex = 0;
   setNotice("Keep going. You still have more guesses.");
+  syncNativeInput();
 }
 
 function handleKey(input) {
@@ -263,6 +276,7 @@ function handleKey(input) {
       state.colIndex -= 1;
       state.guesses[state.rowIndex][state.colIndex] = "";
       renderBoard();
+      syncNativeInput();
     }
     return;
   }
@@ -272,6 +286,7 @@ function handleKey(input) {
   state.guesses[state.rowIndex][state.colIndex] = input;
   state.colIndex += 1;
   renderBoard();
+  syncNativeInput();
 }
 
 function handleThemeChange() {
@@ -281,6 +296,10 @@ function handleThemeChange() {
 }
 
 document.addEventListener("keydown", (event) => {
+  if (event.target === nativeInput) {
+    return;
+  }
+
   const key = event.key.toUpperCase();
   if (key === "BACKSPACE") {
     handleKey("BACK");
@@ -296,6 +315,38 @@ document.addEventListener("keydown", (event) => {
     handleKey(key);
   }
 });
+
+nativeInput.addEventListener("input", () => {
+  if (state.gameOver) {
+    nativeInput.value = "";
+    return;
+  }
+
+  const letters = nativeInput.value
+    .toUpperCase()
+    .replace(/[^A-Z]/g, "")
+    .slice(0, WORD_LENGTH)
+    .split("");
+
+  state.guesses[state.rowIndex] = Array.from(
+    { length: WORD_LENGTH },
+    (_, index) => letters[index] || ""
+  );
+  state.colIndex = letters.length;
+  nativeInput.value = letters.join("");
+  renderBoard();
+});
+
+nativeInput.addEventListener("keydown", (event) => {
+  if (event.key === "Enter") {
+    event.preventDefault();
+    submitGuess();
+  }
+});
+
+board.addEventListener("click", focusNativeInput);
+notice.addEventListener("click", focusNativeInput);
+keyboard.addEventListener("click", focusNativeInput);
 
 newGameTopButton.addEventListener("click", resetGame);
 newGameButton.addEventListener("click", resetGame);

@@ -193,10 +193,19 @@ button:hover {
   font-weight: 700;
 }
 
+.native-input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
+}
+
 .board {
   display: grid;
   gap: 0.55rem;
   justify-content: center;
+  cursor: text;
 }
 
 .board-row {

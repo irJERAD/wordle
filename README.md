@@ -1,4 +1,4 @@
-# Wordl
+# Wordle
 
 A small browser word game for middle school students.
 
